@@ -73,18 +73,18 @@ pares :: Int -> [Int]
 pares n = [x | x <- [1..30], esMultiplo x 2]
 impares :: Int -> [Int]
 impares n = [x | x <- [1..30], not (esMultiplo x 2)]
---esDivisor :: Int -> Int -> Bool
---esDivisor a b
- --   | a == 0    = False
-  --  | otherwise = existek 0
- -- where
-    --existek k                    
-      --  | a * k == b = True
-      --  | abs (a * k) > abs b = False
-     --   | otherwise = existek (k + 1)
+Divisor :: Int -> Int -> Bool
+Divisor a b
+    | a == 0    = False
+    | otherwise = existek 0
+  where
+    existek k                    
+        | a * k == b = True
+        | abs (a * k) > abs b = False
+        | otherwise = existek (k + 1)
 
 relacionDivisor :: Rel Int Int
-relacionDivisor = [(x,y) | x <- pares 30 , y <- pares 30, esDivisor x y]++[(x,y) | x <- impares 30 , y <- impares 30, esDivisor x y]
+relacionDivisor = [(x,y) | x <- pares 30 , y <- pares 30, Divisor x y]++[(x,y) | x <- impares 30 , y <- impares 30, Divisor x y]
 
 --Relacion suma especial. En esta relación R2, tenemos que aR2b si a + b es múltiplo de 5 y a < b.
 suma :: Int -> Int -> Int
