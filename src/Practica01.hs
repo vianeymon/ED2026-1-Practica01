@@ -69,12 +69,14 @@ puntoMedio (x1, y1) (x2, y2) = ((x1 + x2) / 2 , (y1 + y2) / 2)
 --RELACIONES
 type Rel a b = [(a, b)]
 --Relacion divisor. En esta relación R1, tenemos que aR1b si a y b tienen la misma paridad y a es divisor de b.
+esMultiplo :: Int -> Int -> Bool
+esMultiplo n m = n `mod` m == 0
 pares :: Int -> [Int]
 pares n = [x | x <- [1..30], esMultiplo x 2]
 impares :: Int -> [Int]
 impares n = [x | x <- [1..30], not (esMultiplo x 2)]
-esDivisor :: Int -> Int -> Bool
-esDivisor a b
+divisor :: Int -> Int -> Bool
+divisor a b
     | a == 0    = False
     | otherwise = existek 0
   where
@@ -84,7 +86,7 @@ esDivisor a b
         | otherwise = existek (k + 1)
 
 relacionDivisor :: Rel Int Int
-relacionDivisor = [(x,y) | x <- pares 30 , y <- pares 30, esDivisor x y]++[(x,y) | x <- impares 30 , y <- impares 30, esDivisor x y]
+relacionDivisor = [(x,y) | x <- pares 30 , y <- pares 30, divisor x y]++[(x,y) | x <- impares 30 , y <- impares 30, divisor x y]
 
 --Relacion suma especial. En esta relación R2, tenemos que aR2b si a + b es múltiplo de 5 y a < b.
 suma :: Int -> Int -> Int
@@ -135,13 +137,13 @@ maximo (Suc n) (Suc m) = Suc (maximo n m)
 --La función debe recibir dos números naturales n, m y devolver el resultado de n^m
 potencia :: Natural -> Natural -> Natural
 potencia _ Cero = Suc Cero   --n⁰ = 1
-potencia n (Suc m) = multiplicacion n (potencia n m)  --
+potencia n (Suc m) = multiplicacion n (potencia n m)
 
 multiplicacion :: Natural -> Natural -> Natural
 multiplicacion Cero m = Cero
 multiplicacion (Suc Cero) m = m
-multiplicacion (Suc n) m = suma m (multiplicacion n m)
+multiplicacion (Suc n) m = sumaNat m (multiplicacion n m)
 
-suma :: Natural -> Natural -> Natural
-suma Cero m = m
-suma (Suc n) m = Suc (suma n m)
+sumaNat :: Natural -> Natural -> Natural
+sumaNat Cero m = m
+sumaNat (Suc n) m = Suc (sumaNat n m)
